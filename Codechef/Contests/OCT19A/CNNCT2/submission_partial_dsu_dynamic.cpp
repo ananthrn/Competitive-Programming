@@ -717,7 +717,8 @@ void stressTest(int N, int M, int testRuns = 50, int seed = 42){
         }
     }
 }
-
+// Submission Link: https://www.codechef.com/viewsolution/27314153
+// Problem Link: Fault System: https://www.codechef.com/OCT19A/problems/CNNCT2
 int main(void)
 {
     ios_base::sync_with_stdio(false);
