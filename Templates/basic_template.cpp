@@ -1,44 +1,36 @@
 #include<bits/stdc++.h>
 using namespace std;
- typedef pair<int,int> pii;
- typedef pair<char,char> pcc;
- typedef long long ll;
- typedef unsigned long long ull;
- typedef pair<ll,ll> pll;
+typedef pair<int,int> pii;
+typedef pair<char,char> pcc;
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<ll,ll> pll;
 typedef vector<ll> vll;
 typedef vector<pll> vpll;
 typedef vector<ull> vull;
 typedef vector<int> vi;
 typedef vector<bool> vb;
 typedef vector<char> vc;
-typedef tuple<int,int,int> tiii;
 #define rkmod 1125899906842597LL
-#define mod1 1000000007LL
 #define mod 1000000007LL
-#define mod2 1000000007LL
-#define mod3 1000000009LL
 #define mx9 1000000000LL
 #define mx10 10000000000LL
 #define mx5 100000
 #define mx8 100000000LL
 #define mx7 10000000LL
 #define mx6 1000000LL
-#define mx6_5 5000000
 #define last 4444444444
- #define f first
- #define s second
- #define rep(i,a,b) for(ll i=(a);i<=(b);i++)
+#define f first
+#define s second
+#define rep(i,a,b) for(ll i=(a);i<=(b);i++)
 #define reprev(i,a,b) for(ll i=(a);i>=(b);i--)
- #define repi(i,a,b) for(int i=(a);i<=(b);i++)
+#define repi(i,a,b) for(int i=(a);i<=(b);i++)
 #define reprevi(i,a,b) for(int i=(a);i>=(b);i--)
 #define mp make_pair
 #define pb push_back
 #define x first
 #define y second
-//#define PI 3.14159265
-const long double PI = 2*acos(0.0);
-const int stdLength = 25;
-const ll max_number = 1048575;
+
 typedef vector<bool> vb;
 void print(vb &a)
 {
@@ -75,6 +67,24 @@ void print(vll &a)
         cout<<i<<" ";
     }
     cout<<"\n";
+}
+
+void print(deque<ll> &a)
+{
+ 
+    for(ll i:a)
+    {
+        cout<<i<<" ";
+    }
+    cout<<"\n";
+}
+
+void print(const multiset<ll> &a)
+{
+    for(auto i: a){
+        cout<<i<<' ';
+    }
+    cout<<'\n';
 }
 void print(vector<vi> &a)
 {
@@ -160,7 +170,7 @@ ll po(ll a,ll b)
         return (vl)*a;
 }
  
-ll pomod(ll a,ll b)
+ll powMod(ll a,ll b)
 {
     a= a%mod;
     if(b<=0)
@@ -168,7 +178,7 @@ ll pomod(ll a,ll b)
     else if(b==1)
         return a%mod;
  
-    ll vl = pomod((a*a)%mod,b/2);
+    ll vl = powMod((a*a)%mod,b/2);
     vl = vl%mod;
     if(b%2==0)
         return vl;
@@ -176,7 +186,7 @@ ll pomod(ll a,ll b)
         return ((vl)*a)%mod;
 }
 
-ll pomod(ll a,ll b,ll mo)
+ll powMod(ll a,ll b,ll mo)
 {
     a= a%mo;
     if(b<=0)
@@ -184,14 +194,14 @@ ll pomod(ll a,ll b,ll mo)
     else if(b==1)
         return a%mo;
  
-    ll vl = pomod((a*a)%mo,b/2);
+    ll vl = powMod((a*a)%mo,b/2);
     vl = vl%mo;
     if(b%2==0)
         return vl;
     else
         return ((vl)*a)%mo;
 }
-ll factmod(ll n, ll mo)
+ll factorialMod(ll n, ll mo)
 {
     ll val=n;
     ll ans =1;
@@ -203,16 +213,48 @@ ll factmod(ll n, ll mo)
     
     return ans;
 }
-ll inv(ll a,ll mo)
+
+vll preComputeFactorialMod(ll n, ll mo){
+    vll factorialMod(n+1,1LL);
+    
+    rep(j, 1, n){
+        factorialMod[j] = (j*factorialMod[j-1])%mo;
+    }
+    
+    return factorialMod;
+}
+
+
+
+ll inverseMod(ll a,ll mo)
 {
-    return pomod(a,mo-2,mo);
+    return powMod(a,mo-2,mo);
+}
+
+vll preComputeInverseFactorialMod(ll n, ll mo){
+    vll inverseFactorialMod(n+1,1LL);
+    
+    rep(j, 1, n){
+        inverseFactorialMod[j] = (inverseMod(j, mo)*inverseFactorialMod[j-1])%mo;
+    }
+    
+    return inverseFactorialMod;
+}
+
+vll preComputePowMod(ll a, ll n, ll mo){
+    vll powMod(n+1,1LL);
+    rep(j, 1, n)
+    {
+        powMod[j] = (a * powMod[j-1])%mod;
+    }
+    return powMod;
 }
 
 ll combinationMod(ll n, ll i)
 {
     ll ans = 1;
-    ans = (ans * factmod(n,mod))%mod;
-    ll invVal =  (inv(factmod(i,mod),mod)%mod * inv(factmod(n-i,mod),mod)%mod)%mod;
+    ans = (ans * factorialMod(n,mod))%mod;
+    ll invVal =  (inverseMod(factorialMod(i,mod),mod)%mod * inverseMod(factorialMod(n-i,mod),mod)%mod)%mod;
     ans = (ans * invVal)%mod;
     return ans;
 }
@@ -946,9 +988,61 @@ class SegmentTree{
      }
 };
 
+
+unordered_map<ll, int> getCount(vll &arr) {
+    sort(arr.begin(), arr.end());
+    
+    int sz = arr.size();
+    unordered_map<ll, int> counts;
+    int cnt = 1;
+    
+    rep(j, 1, sz-1)
+    {
+        if(arr[j]!=arr[j-1])
+        {
+            counts[arr[j-1]] = cnt;
+            cnt = 1;
+        }else{
+            cnt+=1;
+        }
+    }
+    
+    counts[arr[sz-1]] = cnt;
+    
+    return counts;
+}
+
+vector<pair<ll ,ll > > getVectorCount(vll &arr) {
+    sort(arr.begin(), arr.end());
+    
+    int sz = arr.size();
+    vector<pair<ll ,ll > > counts;
+    int cnt = 1;
+    
+    rep(j, 1, sz-1)
+    {
+        if(arr[j]!=arr[j-1])
+        {
+            counts.pb(mp(arr[j-1], cnt));
+            cnt = 1;
+        }else{
+            cnt+=1;
+        }
+    }
+    counts.pb(mp(arr[sz-1], cnt));
+    
+    return counts;
+}
+
 int main(void)
 {
     ios_base::sync_with_stdio(false);
-
+    int t;
+    cin>>t;
+    
+    
+    while(t--){
+        
+    }
     return 0;
 }
