@@ -1426,7 +1426,7 @@ ll computeTestPeaks(const string &s){
     
     return finalAns;
  }
-// Solution Link: https://www.codechef.com/viewsolution/29589698
+// Soln Link: https://www.codechef.com/viewsolution/29589632
 int main(void)
 {
     ios_base::sync_with_stdio(false);
@@ -1465,13 +1465,10 @@ int main(void)
     //     cout<<ans_peaks<<'\n';
     // }
     const int MAXVAL = mx7;
-    // vector<int> prevIndices(MAXVAL+1, -1LL);
-    // vector<ll> prefSum(MAXVAL+1, 0LL);
-    // vector< vector<ll> > evenOddSums(2, vll(MAXVAL+1,0LL));
+    vector<int> prevIndices(MAXVAL+1, -1LL);
+    vector<ll> prefSum(MAXVAL+1, 0LL);
+    vector< vector<ll> > evenOddSums(2, vll(MAXVAL+1,0LL));
     
-    int prevIndices[MAXVAL+1] = {-1LL};
-    ll prefSum[MAXVAL+1] ={0LL};
-    ll evenOddSums[2][MAXVAL+1] = {-1};
     rep(testCase, 1, t){
         ll n;
         cin >>n;
@@ -1515,14 +1512,14 @@ int main(void)
         }
         
         
-        // if(DEBUG)
-        // {
-        //     cout<<"prefSum:        "; print(prefSum);
-        //     cout<<"prevIndices:    "; print(prevIndices);
-        //      cout<<"evenOddSums[0]: "; print(evenOddSums[0]);
-        //     cout<<"evenOddSums[1]: "; print(evenOddSums[1]);
-        //     cout<<endl;
-        // }
+        if(DEBUG)
+        {
+            cout<<"prefSum:        "; print(prefSum);
+            cout<<"prevIndices:    "; print(prevIndices);
+             cout<<"evenOddSums[0]: "; print(evenOddSums[0]);
+            cout<<"evenOddSums[1]: "; print(evenOddSums[1]);
+            cout<<endl;
+        }
         
         ll finalChanges = 0LL;
         
