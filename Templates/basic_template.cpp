@@ -1,3 +1,13 @@
+//#define SUBMISSION
+#define BRUTE_FORCE
+#ifdef SUBMISSION
+#undef BRUTE_FORCE
+#define NDEBUG
+#else
+#define _GLIBCXX_DEBUG       // Iterator safety; out-of-bounds access for Containers, etc.
+#pragma GCC optimize "trapv" // abort() on (signed) integer overflow.
+#endif
+
 #include<bits/stdc++.h>
 using namespace std;
 typedef pair<int,int> pii;
@@ -11,14 +21,19 @@ typedef vector<ull> vull;
 typedef vector<int> vi;
 typedef vector<bool> vb;
 typedef vector<char> vc;
+typedef tuple<int,int,int> tiii;
 #define rkmod 1125899906842597LL
+#define mod1 1000000007LL
 #define mod 1000000007LL
+#define mod2 1000000007LL
+#define mod3 1000000009LL
 #define mx9 1000000000LL
 #define mx10 10000000000LL
 #define mx5 100000
 #define mx8 100000000LL
 #define mx7 10000000LL
 #define mx6 1000000LL
+#define mx6_5 5000000
 #define last 4444444444
 #define f first
 #define s second
@@ -30,7 +45,10 @@ typedef vector<char> vc;
 #define pb push_back
 #define x first
 #define y second
-
+//#define PI 3.14159265
+const long double PI = 2*acos(0.0);
+const int stdLength = 25;
+const ll max_number = 1048575;
 typedef vector<bool> vb;
 void print(vb &a)
 {
@@ -1046,3 +1064,4 @@ int main(void)
     }
     return 0;
 }
+
