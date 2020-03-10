@@ -26,7 +26,7 @@ typedef tuple<int,int,int> tiii;
 #define mod1 1000000007LL
 #define mod 1000000007LL
 #define mod2 1000000007LL
-#define mod3 1000000009LL
+#define mod3 998244353LL
 #define mx9 1000000000LL
 #define mx10 10000000000LL
 #define mx5 100000
@@ -188,55 +188,55 @@ ll po(ll a,ll b)
         return (vl)*a;
 }
  
-ll powMod(ll a,ll b)
-{
-    a= a%mod;
-    if(b<=0)
-        return 1%mod;
-    else if(b==1)
-        return a%mod;
+// ll powMod(ll a,ll b)
+// {
+//     a= a%mod;
+//     if(b<=0)
+//         return 1%mod;
+//     else if(b==1)
+//         return a%mod;
  
-    ll vl = powMod((a*a)%mod,b/2);
-    vl = vl%mod;
-    if(b%2==0)
-        return vl;
-    else
-        return ((vl)*a)%mod;
-}
+//     ll vl = powMod((a*a)%mod,b/2);
+//     vl = vl%mod;
+//     if(b%2==0)
+//         return vl;
+//     else
+//         return ((vl)*a)%mod;
+// }
 
-ll powMod(ll a,ll b,ll mo)
+ll powMod(ll a,ll b,ll modVal)
 {
-    a= a%mo;
+    a= a%modVal;
     if(b<=0)
-        return 1%mo;
+        return 1%modVal;
     else if(b==1)
-        return a%mo;
+        return a%modVal;
  
-    ll vl = powMod((a*a)%mo,b/2);
-    vl = vl%mo;
+    ll vl = powMod((a*a)%modVal,b/2, modVal);
+    vl = vl%modVal;
     if(b%2==0)
         return vl;
     else
-        return ((vl)*a)%mo;
+        return ((vl)*a)%modVal;
 }
-ll factorialMod(ll n, ll mo)
+ll factorialMod(const ll& n, const ll & modVal)
 {
     ll val=n;
     ll ans =1;
     while(val>=1)
     {
-        ans = (ans*val)%mo;
+        ans = (ans*val)%modVal;
         val--;
     }
     
     return ans;
 }
 
-vll preComputeFactorialMod(ll n, ll mo){
+vll preComputeFactorialMod(const ll& n, const ll & modVal){
     vll factorialMod(n+1,1LL);
     
     rep(j, 1, n){
-        factorialMod[j] = (j*factorialMod[j-1])%mo;
+        factorialMod[j] = (j*factorialMod[j-1])%modVal;
     }
     
     return factorialMod;
@@ -244,39 +244,49 @@ vll preComputeFactorialMod(ll n, ll mo){
 
 
 
-ll inverseMod(ll a,ll mo)
+ll inverseMod(const ll& a, const ll& modVal)
 {
-    return powMod(a,mo-2,mo);
+    return powMod(a, modVal-2, modVal);
 }
 
-vll preComputeInverseFactorialMod(ll n, ll mo){
+vll preComputeInverseFactorialMod(const ll& n, const ll& modVal){
     vll inverseFactorialMod(n+1,1LL);
     
     rep(j, 1, n){
-        inverseFactorialMod[j] = (inverseMod(j, mo)*inverseFactorialMod[j-1])%mo;
+        inverseFactorialMod[j] = (inverseMod(j, modVal)*inverseFactorialMod[j-1])%modVal;
     }
     
     return inverseFactorialMod;
 }
 
-vll preComputePowMod(ll a, ll n, ll mo){
+vll preComputePowMod(const ll& a, const ll& n, const ll& modVal){
     vll powMod(n+1,1LL);
     rep(j, 1, n)
     {
-        powMod[j] = (a * powMod[j-1])%mod;
+        powMod[j] = (a * powMod[j-1])%modVal;
     }
     return powMod;
 }
 
-ll combinationMod(ll n, ll i)
+ll combinationMod(const ll& n, const ll& i, const ll& modVal)
 {
     ll ans = 1;
-    ans = (ans * factorialMod(n,mod))%mod;
-    ll invVal =  (inverseMod(factorialMod(i,mod),mod)%mod * inverseMod(factorialMod(n-i,mod),mod)%mod)%mod;
-    ans = (ans * invVal)%mod;
+    ans = (ans * factorialMod(n, modVal))%modVal;
+    ll invVal =  (inverseMod(factorialMod(i,modVal),modVal)%modVal * inverseMod(factorialMod(n-i,modVal),modVal)%modVal)%modVal;
+    ans = (ans * invVal)%modVal;
     return ans;
 }
-ll greatestCommonDivisor(ll a, ll b){
+
+ll combinationMod(const ll& n, const ll& i, const vll & factorialMod, const vll & inverseFactorialMod, const ll& modVal){
+    
+    ll numerator = factorialMod[n]%modVal;
+    ll invVal = (inverseFactorialMod[i] * inverseFactorialMod[n-i])%modVal;
+    
+    auto ans = (numerator * invVal)%modVal;
+    
+    return ans;
+}
+ll greatestCommonDivisor(const ll& a, const ll& b){
     if(b>a){
         return greatestCommonDivisor(b,a);
     }
@@ -1051,6 +1061,8 @@ vector<pair<ll ,ll > > getVectorCount(vll &arr) {
     
     return counts;
 }
+const int DEBUG =  0;
+
 
 int main(void)
 {
@@ -1058,8 +1070,21 @@ int main(void)
     int t;
     cin>>t;
     
+
     
-    while(t--){
+    rep(testNum, 1, t){
+        
+        string dash = string(20, '-') + "\n";
+        if(DEBUG){
+            
+            cout<<dash<<"Test Case Number: "<<testNum<<endl;
+            
+        }
+        
+
+        if(DEBUG){
+                cout<<dash<<endl<<endl;
+        }
         
     }
     return 0;
